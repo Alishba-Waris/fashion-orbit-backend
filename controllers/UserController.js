@@ -1,19 +1,18 @@
-const express = require("express");
+// UserController.js
 const User = require("../models/UserModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const router = express.Router();
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
-const SignUp = async (req, res) => {
+const signUp = async (req, res) => {
   console.log("::::::::");
   const { name, email, password } = req.body;
 
   try {
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(404).json({ message: "User already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -38,4 +37,4 @@ const SignUp = async (req, res) => {
   }
 };
 
-module.exports = SignUp;
+module.exports = { signUp };
