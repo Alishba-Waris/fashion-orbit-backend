@@ -1,4 +1,3 @@
-// UserController.js
 const User = require("../models/UserModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -29,6 +28,7 @@ const signUp = async (req, res) => {
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1d" });
 
     res.status(201).json({
+      user,
       token,
     });
   } catch (error) {
@@ -37,4 +37,28 @@ const signUp = async (req, res) => {
   }
 };
 
-module.exports = { signUp };
+const logIn = async (req, res) => {
+  const {email, password} = req.body;
+  console.log("::::::::");
+
+  try {
+    let user = await User.findOne({email});
+    if(!user){
+      return res.status(400).json({message: "User not found"})
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if(!isMatch){
+      return res.status(400).json({message: "Invalid Password"});
+    }
+
+    const payload = {user: {id: user._id}};
+    const token = jwt.sign(payload, JWT_SECRET, {expiresIn: "1d"});
+    res.json({ token, user: { _id: user._id, email: user.email, name: user.name } });
+
+  } catch (error) {
+    return res.status(500).json({message: "Server error"});
+  }
+
+}
+
+module.exports = { signUp, logIn };

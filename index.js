@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const UserRoutes = require('./routes/UserRoutes');
+const OrderRoutes = require('./routes/OrderRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -26,6 +27,7 @@ app.get('/', (req, res) => {
 
 // Use the user routes
 app.use('/api/user', UserRoutes);
+app.use('/api/order', OrderRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
