@@ -28,6 +28,8 @@ app.get('/', (req, res) => {
 // Use the user routes
 app.use('/api/user', UserRoutes);
 app.use('/api/order', OrderRoutes);
+// app.use('/api/userinfo/:id', UserRoutes);
+// app.use('/api/orderdetails/:id', OrderRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

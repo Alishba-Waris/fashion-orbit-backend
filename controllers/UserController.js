@@ -27,10 +27,7 @@ const signUp = async (req, res) => {
     const payload = { user: { id: user._id } };
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1d" });
 
-    res.status(201).json({
-      user,
-      token,
-    });
+    res.json({ token, user: { _id: user._id, email: user.email, name: user.name } });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
@@ -59,6 +56,29 @@ const logIn = async (req, res) => {
     return res.status(500).json({message: "Server error"});
   }
 
-}
+};
 
-module.exports = { signUp, logIn };
+
+const getUserInfo = async (req, res) => {
+  const userId = req.params.id; 
+
+  try {
+    const user = await User.findById(userId).select('-password'); 
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({
+      name: user.name,
+      email: user.email,
+      _id: user._id,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+
+module.exports = { signUp, logIn, getUserInfo };
