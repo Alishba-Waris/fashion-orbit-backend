@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const UserRoutes = require('./routes/UserRoutes');
 const OrderRoutes = require('./routes/OrderRoutes');
+const ContactRoutes = require('./routes/ContactRoutes.js');
 require('dotenv').config();
 
 const app = express();
@@ -28,8 +29,7 @@ app.get('/', (req, res) => {
 // Use the user routes
 app.use('/api/user', UserRoutes);
 app.use('/api/order', OrderRoutes);
-// app.use('/api/userinfo/:id', UserRoutes);
-// app.use('/api/orderdetails/:id', OrderRoutes);
+app.use('/api', ContactRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
