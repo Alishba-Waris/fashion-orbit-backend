@@ -5,6 +5,7 @@ const cors = require('cors');
 const UserRoutes = require('./routes/UserRoutes');
 const OrderRoutes = require('./routes/OrderRoutes');
 const ContactRoutes = require('./routes/ContactRoutes.js');
+const ForgotPasswordRoutes = require('./routes/ForgotPasswordRoutes.js');
 require('dotenv').config();
 
 const app = express();
@@ -30,6 +31,7 @@ app.get('/', (req, res) => {
 app.use('/api/user', UserRoutes);
 app.use('/api/order', OrderRoutes);
 app.use('/api', ContactRoutes);
+app.use('/api', ForgotPasswordRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
