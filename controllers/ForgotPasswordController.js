@@ -1,3 +1,4 @@
+
 const nodemailer = require("nodemailer");
 const User = require("../models/UserModel");
 const bcrypt = require("bcryptjs");
@@ -49,13 +50,13 @@ const sendOTP = async (req, res) => {
     ,`,
     });
 
-    res.status(200).json({ message: "OTP sent to your email" });
+    res.status(200).json({ message: "OTP sent to your email"});
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
 };
 
-const ResetPassword = async (req, res) => {
+const resetPassword = async (req, res) => {
   console.log("ResetPassword endpoint was hit");
 const { email, otp, newPassword } = req.body;
 
@@ -77,4 +78,6 @@ try {
 }
 };
 
-module.exports = {sendOTP, ResetPassword};
+
+module.exports = {sendOTP, resetPassword};
+
