@@ -50,7 +50,19 @@ const getOrderDetails = async(req, res) => {
     console.error(error);
     return res.status(500).json({message: "Server error"});    
   }
-}
+};
 
-module.exports = {createOrder, getOrderDetails};
+const getRecentOrder = async(req, res) => {
+  try {
+    const recentOrder = await Order.findOne().sort({createdAt: -1});
+    if (!recentOrder){
+      res.status(400).json({message: "Order not found"});
+    }
+    return res.json(recentOrder);
+  } catch (error) {
+    return res.status(500).json({message: "Server error"});
+  }
+};
+
+module.exports = {createOrder, getOrderDetails, getRecentOrder};
 
